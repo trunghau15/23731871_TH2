@@ -1,1 +1,1 @@
-Họ và tên: TRẦN TRUNG HẬU - MSSV: 23731871 - Link: https://github.com/trantrunghau/23731871_TH2.git - Stamp: #STAMP - Số cuối: 1 - VARIANT: Watermark Dưới, Login Phone, Tab Shop Trước, Haptic Selection, Ship B, Detail Card
+Họ và tên: TRẦN TRUNG HẬU - MSSV: 23731871 - Link: https://github.com/trantrunghau/23731871__TH2.git - Stamp: #STAMP - Số cuối: 1 - VARIANT: Watermark Dưới, Login Phone, Tab Shop Trước, Haptic Selection, Ship B, Detail Card
