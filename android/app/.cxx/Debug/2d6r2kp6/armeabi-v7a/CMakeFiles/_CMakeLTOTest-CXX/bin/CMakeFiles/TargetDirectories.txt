@@ -1,0 +1,4 @@
+C:/Users/ADMIN/KTXGo_23731871/android/app/.cxx/Debug/2d6r2kp6/armeabi-v7a/CMakeFiles/_CMakeLTOTest-CXX/bin/CMakeFiles/foo.dir
+C:/Users/ADMIN/KTXGo_23731871/android/app/.cxx/Debug/2d6r2kp6/armeabi-v7a/CMakeFiles/_CMakeLTOTest-CXX/bin/CMakeFiles/boo.dir
+C:/Users/ADMIN/KTXGo_23731871/android/app/.cxx/Debug/2d6r2kp6/armeabi-v7a/CMakeFiles/_CMakeLTOTest-CXX/bin/CMakeFiles/edit_cache.dir
+C:/Users/ADMIN/KTXGo_23731871/android/app/.cxx/Debug/2d6r2kp6/armeabi-v7a/CMakeFiles/_CMakeLTOTest-CXX/bin/CMakeFiles/rebuild_cache.dir
