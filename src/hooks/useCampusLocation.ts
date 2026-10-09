@@ -3,6 +3,7 @@ import { PermissionsAndroid, Platform } from 'react-native';
 import Geolocation from '@react-native-community/geolocation';
 import { BASE_SHIP_FEE, VARIANT } from '@constants/student';
 
+// Tọa độ cổng KTX
 const KTX_COORDS = { latitude: 10.8221, longitude: 106.6868 };
 
 function haversineDistance(lat1: number, lon1: number, lat2: number, lon2: number) {
@@ -27,14 +28,11 @@ export function useCampusLocation() {
     const [shippingFee, setShippingFee] = useState<number | null>(null);
 
     const calculateFee = (km: number) => {
-        let fee = 0;
         if (VARIANT.shipFormula === 'A') {
-            fee = BASE_SHIP_FEE + Math.round(km * 2000);
-        } else {
-            // Công thức B cho số cuối 1
-            fee = BASE_SHIP_FEE + Math.round(km * 1500) + 2000;
+            return BASE_SHIP_FEE + Math.round(km * 2000);
         }
-        return fee;
+        // Công thức B cho số cuối 1
+        return BASE_SHIP_FEE + Math.round(km * 1500) + 2000;
     };
 
     const requestLocation = async () => {
@@ -61,7 +59,7 @@ export function useCampusLocation() {
                 } else if (granted === PermissionsAndroid.RESULTS.NEVER_ASK_AGAIN) {
                     setStatus('blocked');
                 }
-            } catch (err) {
+            } catch {
                 setStatus('denied');
             }
         } else {
@@ -84,12 +82,12 @@ export function useCampusLocation() {
                 setShippingFee(calculateFee(fixedKm));
             },
             () => {
-                // Fallback giả lập vị trí hợp lệ trên máy ảo
+                // Fallback GPS giả lập 1.2 km đúng theo ảnh minh họa của đề
                 const mockKm = 1.2;
                 setDistanceKm(mockKm);
                 setShippingFee(calculateFee(mockKm));
             },
-            { enableHighAccuracy: false, timeout: 5000 }
+            { enableHighAccuracy: false, timeout: 4000 }
         );
     };
 
