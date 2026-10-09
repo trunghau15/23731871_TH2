@@ -2,8 +2,8 @@ import { useState } from 'react';
 import { PermissionsAndroid, Platform } from 'react-native';
 import Geolocation from '@react-native-community/geolocation';
 import { BASE_SHIP_FEE, VARIANT } from '@constants/student';
+import { useCartStore } from '@stores/cartStore';
 
-// Tọa độ cổng KTX
 const KTX_COORDS = { latitude: 10.8221, longitude: 106.6868 };
 
 function haversineDistance(lat1: number, lon1: number, lat2: number, lon2: number) {
@@ -31,7 +31,7 @@ export function useCampusLocation() {
         if (VARIANT.shipFormula === 'A') {
             return BASE_SHIP_FEE + Math.round(km * 2000);
         }
-        // Công thức B cho số cuối 1
+        // Công thức B cho số cuối 1 của bạn
         return BASE_SHIP_FEE + Math.round(km * 1500) + 2000;
     };
 
@@ -69,6 +69,14 @@ export function useCampusLocation() {
     };
 
     const fetchCoords = () => {
+        // 1. Gán ngay phí mock 1.2km (12.800 đ) vào Store để cập nhật tức thì
+        const mockKm = 1.2;
+        const initialFee = calculateFee(mockKm);
+        setDistanceKm(mockKm);
+        setShippingFee(initialFee);
+        useCartStore.getState().setShippingFee(initialFee);
+
+        // 2. Lấy tọa độ thực tế nếu thiết bị hỗ trợ
         Geolocation.getCurrentPosition(
             (pos) => {
                 const km = haversineDistance(
@@ -78,14 +86,13 @@ export function useCampusLocation() {
                     KTX_COORDS.longitude
                 );
                 const fixedKm = parseFloat(km.toFixed(1));
+                const fee = calculateFee(fixedKm);
                 setDistanceKm(fixedKm);
-                setShippingFee(calculateFee(fixedKm));
+                setShippingFee(fee);
+                useCartStore.getState().setShippingFee(fee);
             },
             () => {
-                // Fallback GPS giả lập 1.2 km đúng theo ảnh minh họa của đề
-                const mockKm = 1.2;
-                setDistanceKm(mockKm);
-                setShippingFee(calculateFee(mockKm));
+                // Giữ nguyên kết quả mock 1.2km nếu máy ảo không có GPS
             },
             { enableHighAccuracy: false, timeout: 4000 }
         );

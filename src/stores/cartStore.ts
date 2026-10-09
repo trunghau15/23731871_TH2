@@ -13,6 +13,8 @@ export interface CartItem {
 
 interface CartState {
     items: CartItem[];
+    shippingFee: number | null; // Lưu phí ship toàn app
+    setShippingFee: (fee: number | null) => void;
     addItem: (item: Omit<CartItem, 'quantity'>) => void;
     removeItem: (id: string) => void;
     changeQty: (id: string, delta: number) => void;
@@ -25,6 +27,8 @@ export const useCartStore = create<CartState>()(
     persist(
         (set, get) => ({
             items: [],
+            shippingFee: null,
+            setShippingFee: (fee) => set({ shippingFee: fee }),
             addItem: (product) => {
                 const current = get().items;
                 const found = current.find((i) => i.id === product.id);

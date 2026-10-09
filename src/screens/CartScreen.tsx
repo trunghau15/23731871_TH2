@@ -3,11 +3,11 @@ import { View, Text, FlatList, TouchableOpacity, StyleSheet } from 'react-native
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useCartStore } from '@stores/cartStore';
 import { THEME } from '@constants/theme';
-import { ROOM_LABEL } from '@constants/student';
+import { ROOM_LABEL, VARIANT } from '@constants/student';
 import { Watermark } from '@components/Watermark';
 
 export const CartScreen = () => {
-    const { items, removeItem, changeQty, totalAmount } = useCartStore();
+    const { items, removeItem, changeQty, totalAmount, shippingFee } = useCartStore();
 
     return (
         <SafeAreaView style={styles.safeArea} edges={['top', 'left', 'right']}>
@@ -48,9 +48,18 @@ export const CartScreen = () => {
                 }
             />
 
+            {/* KHUNG TỔNG TIỀN VÀ PHÍ SHIP ĐÃ KẾT NỐI STORE */}
             <View style={styles.summaryCard}>
                 <Text style={styles.roomText}>Giao đến {ROOM_LABEL}</Text>
-                <Text style={styles.shipInfo}>Chưa ước tính phí — mở tab Tôi để lấy GPS</Text>
+                {typeof shippingFee === 'number' ? (
+                    <Text style={styles.shipInfoActive}>
+                        Phí ship: {shippingFee.toLocaleString('vi-VN')} đ (công thức {VARIANT.shipFormula})
+                    </Text>
+                ) : (
+                    <Text style={styles.shipInfoMuted}>
+                        Chưa ước tính phí — mở tab Tôi để lấy GPS
+                    </Text>
+                )}
                 <Text style={styles.totalText}>
                     Tổng hàng: {totalAmount().toLocaleString('vi-VN')} đ
                 </Text>
@@ -147,10 +156,16 @@ const styles = StyleSheet.create({
         fontWeight: '700',
         color: THEME.text,
     },
-    shipInfo: {
+    shipInfoActive: {
         fontSize: 13,
         color: THEME.secondary,
-        fontWeight: '600',
+        fontWeight: '700',
+        marginVertical: 4,
+    },
+    shipInfoMuted: {
+        fontSize: 13,
+        color: THEME.secondary,
+        fontWeight: '500',
         marginVertical: 4,
     },
     totalText: {
